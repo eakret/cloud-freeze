@@ -1,11 +1,12 @@
 package net.ehrenkret.cloudfreeze;
 
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-import javax.swing.BoxLayout;
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -32,22 +33,24 @@ public class Cloudfreeze {
 
   private static AWSCredentials getCredentials() {
     final JDialog dialog = new JDialog((Frame)null, "AWS Credentials", true);
-    dialog.setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
+    dialog.setMinimumSize(new Dimension(320, 120));
+    Box box = Box.createVerticalBox();
     JLabel accessKeyLabel = new JLabel("AWS Access Key");
-    dialog.add(accessKeyLabel);
-    JTextField accessKeyField = new JTextField(80);
-    dialog.add(accessKeyField);
+    box.add(accessKeyLabel);
+    JTextField accessKeyField = new JTextField();
+    box.add(accessKeyField);
     JLabel secretKeyLabel = new JLabel("AWS Secret Key");
-    dialog.add(secretKeyLabel);
-    JTextField secretKeyField = new JTextField(80);
-    dialog.add(secretKeyField);
+    box.add(secretKeyLabel);
+    JTextField secretKeyField = new JTextField();
+    box.add(secretKeyField);
     JButton okButton = new JButton("OK");
     okButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         dialog.setVisible(false);
       }
     });
-    dialog.add(okButton);
+    box.add(okButton);
+    dialog.add(box);
     dialog.setVisible(true);
     return new BasicAWSCredentials(accessKeyField.getText(),
                                    secretKeyField.getText());
